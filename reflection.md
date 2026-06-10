@@ -12,11 +12,12 @@ Answer each question in 3 to 5 sentences. Be specific and honest about what actu
 
 Document at least 3 bugs you found. Add rows as needed.
 
-| Input | Expected Behavior | Actual Behavior | Console Output / Error |
-|-------|-------------------|-----------------|------------------------|
-| | | | |
-| | | | |
-| | | | |
+| Input           | Expected Behavior | Actual Behavior | Console Output / Error |
+|--------------|-------------------|-----------------|------------------------|
+| Switching difficulty toggle between "Normal/Medium" and "Hard" | Medium should be 1–50 and Hard should be 1–100 | The ranges are swapped — Medium shows 1–100 and Hard shows 1–50 | No error; wrong ranges returned silently by `get_range_for_difficulty()` in `app.py` |
+| Switching difficulty mid-game | Secret number, attempts, and score should reset and reflect the new difficulty's range (e.g. Easy: 1–20) | Game state carries over — secret number stays the same regardless of difficulty, so it can be out of range (e.g. secret is 38 on Easy 1–20); all difficulty levels behave the same | No error; state is shared across difficulties with no reset |
+| Inputting a number to guess | The guess should appear in the history list inside the debugger immediately after submitting | Nothing appears in the history list until the next guess is submitted — history is always one step behind | No error; display update is delayed by one rerun cycle |
+| Clicking "New Game" to restart | All game state should reset — message cleared, history wiped, input re-enabled | "Game over. Start a new game to try again." message persists, history list keeps previous outputs, and the game stays frozen; only the secret number updates | Error message "Game over. Start a new game to try again." ; session state is not fully cleared on restart |
 
 ---
 

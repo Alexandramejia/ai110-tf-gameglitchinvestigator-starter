@@ -1,15 +1,6 @@
 import random
 import streamlit as st
-
-def get_range_for_difficulty(difficulty: str):
-    if difficulty == "Easy":
-        return 1, 20
-    if difficulty == "Normal":
-        return 1, 50   # FIXED: was returning 1, 100 (swapped with Hard)
-    if difficulty == "Hard":
-        return 1, 100  # FIXED: was returning 1, 50 (swapped with Normal)
-    return 1, 100
-
+from logic_utils import get_range_for_difficulty
 
 def parse_guess(raw: str):
     if raw is None:
@@ -89,20 +80,13 @@ low, high = get_range_for_difficulty(difficulty)
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
-# FIXME: switching difficulty does not reset secret, attempts, or score
-if "secret" not in st.session_state:
+# FIXED: reset all state when difficulty changes so secret, attempts, score, status, and history reflect the new difficulty
+if st.session_state.get("difficulty") != difficulty:
+    st.session_state.difficulty = difficulty
     st.session_state.secret = random.randint(low, high)
-
-if "attempts" not in st.session_state:
     st.session_state.attempts = 1
-
-if "score" not in st.session_state:
     st.session_state.score = 0
-
-if "status" not in st.session_state:
     st.session_state.status = "playing"
-
-if "history" not in st.session_state:
     st.session_state.history = []
 
 st.subheader("Make a guess")
@@ -134,7 +118,7 @@ with col3:
 
 if new_game:
     st.session_state.attempts = 0
-    st.session_state.secret = random.randint(1, 100)
+    st.session_state.secret = random.randint(low, high)  # FIXED: was hardcoded to (1, 100), now respects selected difficulty range
     # FIXME: status, score, and history are not reset here
     st.success("New game started.")
     st.rerun()

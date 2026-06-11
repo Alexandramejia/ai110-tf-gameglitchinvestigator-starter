@@ -24,7 +24,7 @@ def check_guess(guess, secret):
 
     outcome examples: "Win", "Too High", "Too Low"
     """
-    # ADDITIONAL FIX: hint messages were inverted — higher guess should go lower, lower guess should go higher.
+    # FIXED: hint messages were inverted — higher guess should go lower, lower guess should go higher.
     if guess == secret:
         return "Win", "🎉 Correct!"
 

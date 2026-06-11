@@ -1,13 +1,14 @@
 import random
 import streamlit as st
 
+# FIXME: Difficulty levels are not properly implemented
 def get_range_for_difficulty(difficulty: str):
     if difficulty == "Easy":
         return 1, 20
     if difficulty == "Normal":
-        return 1, 100
+        return 1, 100  # FIXME: Normal and Hard ranges are swapped; should be 1, 50
     if difficulty == "Hard":
-        return 1, 50
+        return 1, 50   # FIXME: should be 1, 100
     return 1, 100
 
 
@@ -89,6 +90,7 @@ low, high = get_range_for_difficulty(difficulty)
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
+# FIXME: switching difficulty does not reset secret, attempts, or score
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
@@ -116,7 +118,7 @@ with st.expander("Developer Debug Info"):
     st.write("Attempts:", st.session_state.attempts)
     st.write("Score:", st.session_state.score)
     st.write("Difficulty:", difficulty)
-    st.write("History:", st.session_state.history)
+    st.write("History:", st.session_state.history)  # FIXME: history renders one guess behind; appended after this block runs
 
 raw_guess = st.text_input(
     "Enter your guess:",
@@ -134,6 +136,7 @@ with col3:
 if new_game:
     st.session_state.attempts = 0
     st.session_state.secret = random.randint(1, 100)
+    # FIXME: status, score, and history are not reset here
     st.success("New game started.")
     st.rerun()
 
@@ -142,6 +145,7 @@ if st.session_state.status != "playing":
         st.success("You already won. Start a new game to play again.")
     else:
         st.error("Game over. Start a new game to try again.")
+        # FIXME: You have to reset the score and history
     st.stop()
 
 if submit:

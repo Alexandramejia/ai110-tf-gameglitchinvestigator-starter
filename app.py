@@ -78,8 +78,8 @@ difficulty = st.sidebar.selectbox(
 )
 
 attempt_limit_map = {
-    "Easy": 6,
-    "Normal": 8,
+    "Easy": 8,    # ADDITIONAL FIX: was 6 (swapped with Normal)
+    "Normal": 6,  # ADDITIONAL FIX: was 8 (swapped with Easy)
     "Hard": 5,
 }
 attempt_limit = attempt_limit_map[difficulty]
